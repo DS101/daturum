@@ -1,0 +1,140 @@
+<% if @questions.empty? %>
+  <h1>Вопросов пока нет</h1>
+<% end %>
+
+<div class="question-block">
+  <% @questions.each do |question| %>
+    <p>
+      <strong>
+        <%= question.title %>
+        -
+        <%= question.user_email %>
+      </strong>
+      <%= time_ago_in_words(question.created_at) %> ago
+      <br>
+      <br>  
+      <%= question.body %>
+    </p>
+    <div class="answers-block">
+      <div class="answer">
+        <% question.answers.each do |answer| %>
+          <p>
+            <%= answer.body %>
+            <% answer.confirm_additions.each do |confirm_addition| %>
+              <span class="light">
+                <%= confirm_addition.body %>
+              </span>
+            <% end %>
+            -
+            <strong>
+              <%= answer.user_email %>
+            </strong>
+            <%= time_ago_in_words(answer.created_at) %> ago
+          </p>
+
+          <div class="additions">
+            <div class="addition">
+              <% answer.additions.each do |addition| %>
+                <p>
+                  <% if addition.confirmed %>                  
+                    &#10003;
+                    <%= addition.body %>
+                    -
+                    <strong>
+                      <%= addition.user_email %>
+                    </strong>
+                    <%= time_ago_in_words(addition.created_at) %> ago
+                    <span class="light">
+                      принято
+                    </span>
+                    <%= time_ago_in_words(addition.updated_at) %> ago
+                  <% else %>
+                    +
+                    <%= addition.body %>
+                    -
+                    <strong>
+                      <%= addition.user_email %>
+                    </strong>
+                    <%= time_ago_in_words(addition.created_at) %> ago
+                  <% end %>
+                  
+                </p>
+
+                <div class="hidden" id="new_confirm_form_<%= addition.id %>" > 
+                  <%= form_for :confirm_addition, url: confirm_additions_path do |f| %>
+                    <p class="hidden">
+                      <%= f.text_area :answer_id, value: answer.id %><br />      
+                    </p>
+
+                    <p class="hidden">
+                      <%= f.text_area :addition_id, value: addition.id %><br />      
+                    </p>
+
+                    <p>            
+                      <%= f.label :body %><br />
+                      <%= f.text_area :body, value: answer.body + ' ' + addition.body %>
+                    </p>
+
+                    <p>
+                      <%= f.submit %>
+                    </p>
+                  <% end %>
+                </div>
+
+                <% if (current_user.id == answer.user_id) && (addition.confirmed == false) %>
+                  <%= link_to 'confirm', "#", onclick: "render_confirm_form(#{addition.id})" %>
+                <% end %>
+              <% end %>
+
+            </div>
+          </div>
+
+          <div class="hidden" id="new_addition_form_<%= answer.id %>" > 
+            <%= form_for :addition, url: additions_path do |f| %>
+              <p class="hidden">
+                <%= f.text_area :answer_id, value: answer.id %><br />      
+              </p>
+
+              <p>            
+                <%= f.label :body %><br />
+                <%= f.text_area :body %>
+              </p>
+
+              <p>
+                <%= f.submit %>
+              </p>
+            <% end %>
+          </div>
+
+          <%= link_to 'addition', "#", onclick: "render_addition_form(#{answer.id})" %>                   
+        <% end %>        
+      </div>
+    </div>
+
+    <div class="hidden" id="new_answer_form_<%= question.id %>" > 
+      <%= form_for :answer, url: answers_path do |f| %>
+        <p class="hidden">
+          <%= f.text_area :question_id, value: question.id %><br />      
+        </p>
+
+        <p>            
+          <%= f.label :body %><br />
+          <%= f.text_area :body %>
+        </p>
+
+        <p>
+          <%= f.submit %>
+        </p>
+      <% end %>
+    </div>
+
+    <p>
+      <%= link_to 'answer', "#", onclick: "render_answer_form(#{question.id})" %>  
+    </p>
+  <% end %>
+</div>
+<%= link_to 'New question', "#", id: "button" %>
+
+<div id="new_question_form" >
+  <%= render "new" %>
+</div>
