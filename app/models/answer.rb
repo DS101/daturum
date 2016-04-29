@@ -4,16 +4,16 @@ class Answer < ActiveRecord::Base
   has_many   :additions,         dependent: :delete_all
   has_many   :confirm_additions, dependent: :delete_all
 
-  public
+  # public
 
-    def approved_additions
-      arr = Array.new
+  #   def approved_additions
+  #     arr = Array.new
 
-      Addition.where(:answer_id => id).find_each do |a|
-        if a.confirmed
-          arr << a
-        end
-      end
-      return arr
-    end
+  #     Addition.where(:answer_id => id).find_each do |a|
+  #       if a.confirmed
+  #         arr << a
+  #       end
+  #     end
+  #     return arr
+  #   end
 end
