@@ -39,8 +39,9 @@ $(function() {
   $(".light").hover(function() {
   /*когда наводим мышь на тег 'span'*/
   $(this).css({
-    'color': '#fff',
-    'backgroundColor': '#000'})
+    'color': 'red',
+    // 'backgroundColor': '#000'
+  })
   }, function() {
     /*когда убираем мышь с тега 'span'*/
     $(this).css({
