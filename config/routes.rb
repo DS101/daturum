@@ -15,7 +15,10 @@ Rails.application.routes.draw do
 
   post "additions" => "questions#index"
 
-  post "confirm_additions" => "questions#index"
+  put "additions" => "questions#index"
+
+
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

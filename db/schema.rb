@@ -11,16 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428080834) do
+ActiveRecord::Schema.define(version: 20160504050601) do
 
   create_table "additions", force: :cascade do |t|
     t.text     "body"
     t.string   "user_email"
-    t.boolean  "confirmed",  default: false
+    t.boolean  "confirmed",        default: false
     t.integer  "user_id"
     t.integer  "answer_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.text     "confirm_addition"
   end
 
   add_index "additions", ["answer_id"], name: "index_additions_on_answer_id"
@@ -37,16 +38,6 @@ ActiveRecord::Schema.define(version: 20160428080834) do
 
   add_index "answers", ["question_id"], name: "index_answers_on_question_id"
   add_index "answers", ["user_id"], name: "index_answers_on_user_id"
-
-  create_table "confirm_additions", force: :cascade do |t|
-    t.text     "body"
-    t.integer  "answer_id"
-    t.integer  "addition_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  add_index "confirm_additions", ["answer_id"], name: "index_confirm_additions_on_answer_id"
 
   create_table "questions", force: :cascade do |t|
     t.string   "title"

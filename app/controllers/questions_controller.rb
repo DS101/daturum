@@ -17,7 +17,7 @@ class QuestionsController < ApplicationController
       flash[:success] = "Question created!"
       redirect_to questions_path
     else
-      render action :new
+      redirect_to questions_path
     end
   end
 

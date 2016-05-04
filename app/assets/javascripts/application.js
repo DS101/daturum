@@ -34,18 +34,18 @@ function render_confirm_form(id){
   $(key).show();
 }
 
-
-$(function() {
-  $(".light").hover(function() {
-  /*когда наводим мышь на тег 'span'*/
-  $(this).css({
+function light_on(id){
+  var key = ".light_" + id
+  $(key).css({
     'color': 'red',
     // 'backgroundColor': '#000'
-  })
-  }, function() {
-    /*когда убираем мышь с тега 'span'*/
-    $(this).css({
-    'color': '#000',
-    'backgroundColor': 'transparent'});
   });
-});
+}
+
+function light_off(id){
+  var key = ".light_" + id
+  $(key).css({
+    'color': '#000',
+    'backgroundColor': 'transparent'
+  });
+}
